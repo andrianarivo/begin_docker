@@ -1,0 +1,33 @@
+version: "3"
+services: 
+  wordpress:
+    image: wordpress:4.9
+    ports:
+      - 8080:80
+    environment:
+      - WORDPRESS_DB_HOST=db
+      - WORDPRESS_DB_USER=david
+      - WORDPRESS_DB_PASSWORD=root
+      - WORDPRESS_DB_NAME=wordp
+    networks:
+      - blog
+    volumes:
+      - wp:/var/www/html
+  db:
+    image: mysql:5.7
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=wordp
+      - MYSQL_USER=david
+      - MYSQL_PASSWORD=root
+    networks:
+      - blog
+    volumes:
+      - db:/var/lib/mysql
+volumes:
+  db:
+  wp:
+networks:
+  blog:
+    name: blog_network
+    external: true
